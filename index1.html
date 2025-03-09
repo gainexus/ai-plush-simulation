@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlushyCraft Studio</title>
+  <style>
+    canvas { border: 1px solid #000; margin: 10px; }
+    h1, h2 { font-family: Arial, sans-serif; }
+    select, button { margin: 10px; padding: 5px; }
+    .section { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>PlushyCraft Studio</h1>
+
+  <!-- 2D Design Studio -->
+  <div class="section">
+    <h2>2D Design Studio</h2>
+    <canvas id="sketchCanvas" width="800" height="600"></canvas>
+  </div>
+
+  <!-- 3D Modeling Tool -->
+  <div class="section">
+    <h2>3D Modeling Tool</h2>
+    <label for="material">Select Material:</label>
+    <select id="material">
+      <option value="cotton">Cotton</option>
+      <option value="polyester">Polyester</option>
+      <option value="fleece">Fleece</option>
+    </select>
+    <label for="size">Select Size:</label>
+    <select id="size">
+      <option value="10">Small (10 cm)</option>
+      <option value="20">Medium (20 cm)</option>
+      <option value="30">Large (30 cm)</option>
+    </select>
+    <div id="3d-container" style="width: 800px; height: 600px;"></div>
+  </div>
+
+  <!-- Cutting Pattern Generator -->
+  <div class="section">
+    <h2>Cutting Pattern Generator</h2>
+    <canvas id="patternCanvas" width="800" height="600"></canvas>
+  </div>
+
+  <!-- Factory Production Integration -->
+  <div class="section">
+    <h2>Factory Production</h2>
+    <button id="sendToFactory">Send Design to Factory</button>
+    <p id="factoryStatus"></p>
+  </div>
+
+  <!-- Patent Assistant -->
+  <div class="section">
+    <h2>Patent Assistant</h2>
+    <button id="downloadPatent">Download Patent Template</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.15/paper-full.min.js"></script>
+  <script>
+    // 2D Design Studio
+    const sketchCanvas = document.getElementById('sketchCanvas');
+    const sketchCtx = sketchCanvas.getContext('2d');
+    let isDrawing = false;
+
+    sketchCanvas.addEventListener('mousedown', () => isDrawing = true);
+    sketchCanvas.addEventListener('mouseup', () => isDrawing = false);
+    sketchCanvas.addEventListener('mousemove', (e) => {
+      if (isDrawing) {
+        sketchCtx.lineTo(e.offsetX, e.offsetY);
+        sketchCtx.stroke();
+      } else {
+        sketchCtx.beginPath();
+        sketchCtx.moveTo(e.offsetX, e.offsetY);
+      }
+    });
+
+    // 3D Modeling Tool
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(800, 600);
+    document.getElementById('3d-container').appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+
+    document.getElementById('material').addEventListener('change', (e) => {
+      const texture = new THREE.TextureLoader().load(`textures/${e.target.value}.jpg`);
+      cube.material.map = texture;
+      cube.material.needsUpdate = true;
+    });
+
+    document.getElementById('size').addEventListener('change', (e) => {
+      const size = parseFloat(e.target.value);
+      cube.scale.set(size / 10, size / 10, size / 10);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Cutting Pattern Generator
+    paper.setup(document.getElementById('patternCanvas'));
+    const path = new paper.Path();
+    path.strokeColor = 'black';
+
+    const start = new paper.Point(100, 100);
+    path.moveTo(start);
+    path.lineTo(start.add([200, 0]));
+    path.lineTo(start.add([200, 200]));
+    path.lineTo(start.add([0, 200]));
+    path.lineTo(start);
+
+    // Factory Production Integration
+    document.getElementById('sendToFactory').addEventListener('click', async () => {
+      const factoryStatus = document.getElementById('factoryStatus');
+      factoryStatus.textContent = 'Sending design to factory...';
+
+      // Simulate sending design to factory
+      setTimeout(() => {
+        factoryStatus.textContent = 'Design sent to factory successfully!';
+      }, 2000);
+    });
+
+    // Patent Assistant
+    document.getElementById('downloadPatent').addEventListener('click', () => {
+      // Create a link to download a patent template
+      const link = document.createElement('a');
+      link.href = 'https://example.com/patent-template.pdf'; // Replace with actual URL
+      link.download = 'patent-template.pdf';
+      link.click();
+    });
+  </script>
+</body>
+</html>
