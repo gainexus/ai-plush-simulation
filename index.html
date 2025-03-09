@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Plush Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: #0057b8;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .step {
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #e55d00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        AI-Plush Simulation - Transforming 2D to 3D Plush Toys
+    </header>
+    <div class="container">
+        <h2>Step 1: Upload a 2D Image</h2>
+        <p>Select an image of a pet or character to start.</p>
+        <input type="file" id="upload" accept="image/*">
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" alt="Example 2D Image" width="300">
+        </div>
+
+        <h2>Step 2: AI Generates a 3D Model</h2>
+        <p>AI processes the image and converts it into a 3D plush model.</p>
+        <button class="button" onclick="simulateProcess('3dModel')">Generate 3D Model</button>
+        <div id="3dModel" class="step" style="display:none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/3D_model_example.png" alt="Generated 3D Model" width="300">
+            <p>3D model preview.</p>
+        </div>
+
+        <h2>Step 3: AI Generates a Cutting Pattern</h2>
+        <p>The AI optimizes fabric usage and creates the cutting pattern.</p>
+        <button class="button" onclick="simulateProcess('cuttingPattern')">Generate Cutting Pattern</button>
+        <div id="cuttingPattern" class="step" style="display:none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Sewing_pattern_example.png" alt="Cutting Pattern" width="300">
+            <p>AI-optimized cutting pattern.</p>
+        </div>
+
+        <h2>Step 4: Automated Manufacturing</h2>
+        <p>AI sends the design to production for fabric cutting and sewing.</p>
+        <button class="button" onclick="simulateProcess('manufacturing')">Start Manufacturing</button>
+        <div id="manufacturing" class="step" style="display:none;">
+            <p>Production in progress...</p>
+        </div>
+
+        <h2>Step 5: Final Plush Toy</h2>
+        <p>Here’s the final plush toy created using AI-Plush.</p>
+        <button class="button" onclick="simulateProcess('finalToy')">Show Final Plush Toy</button>
+        <div id="finalToy" class="step" style="display:none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Teddy_bear_plush_toy.png" alt="Final Plush Toy" width="300">
+            <p>Final plush toy preview.</p>
+        </div>
+    </div>
+
+    <script>
+        function simulateProcess(step) {
+            document.getElementById(step).style.display = "block";
+        }
+    </script>
+</body>
+</html>
